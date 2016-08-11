@@ -110,93 +110,95 @@ public class DaysDAO{
         }
         return null;
     }
-    
-    public Days FindById(Teacher tea){
-        if(db.open()){
-            sql = "SELECT *  FROM tb_days WHERE day_tea_id = ?";
-            try{                
-                ps = db.connection.prepareStatement(sql);
-                ps.setInt(1, tea.getId());
-                rs = ps.executeQuery();
-                if(rs.next()){
-                    Days day = new Days();
-                    TeacherDAO tdao = new TeacherDAO();
-                    day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
-                    day.setName(rs.getString("day_name"));
-                    day.setSigla(rs.getString("day_acro"));
-                    day.setShift(rs.getInt("day_shift"));
-                    rs.close();
-                    ps.close();
-                    db.close();
-                    return day;  
-                }
-                rs.close();
-                ps.close();
-                db.close();
-            }catch (SQLException error){
-                System.out.println("ERROR: " + error.toString());
-                return null;
-            }
-        }
-        return null;
-    }
         
-    public Days FindByDay(String name){
-        if(db.open()){
-            sql = "SELECT *  FROM tb_days WHERE day_name = ?";
-            try{
-                ps = db.connection.prepareStatement(sql);
-                ps.setString(1, name.trim());
-                rs = ps.executeQuery();
-                if(rs.next()){
-                    Days day = new Days();
-                    TeacherDAO tdao = new TeacherDAO();
-                    day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
-                    day.setName(rs.getString("day_name"));
-                    day.setSigla(rs.getString("day_acro"));
-                    rs.close();
-                    ps.close();
-                    db.close();
-                    return day;  
-                }
-                rs.close();
-                ps.close();
-                db.close();
-            }catch (SQLException error){
-                System.out.println("ERROR: " + error.toString());
-                return null;
-            }
-        }
-        return null;
-    }
+      
     
-    public Days FindByAcro(String acro){
-        if(db.open()){
-            sql = "SELECT *  FROM tb_days WHERE day_name = ?";
-            try{
-                ps = db.connection.prepareStatement(sql);
-                ps.setString(1, acro.trim());
-                rs = ps.executeQuery();
-                if(rs.next()){
-                    Days day = new Days();
-                    TeacherDAO tdao = new TeacherDAO();
-                    day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
-                    day.setName(rs.getString("day_name"));
-                    day.setSigla(rs.getString("day_acro"));
-                    day.setSigla(rs.getString("day_acro"));
-                    rs.close();
-                    ps.close();
-                    db.close();
-                    return day;  
-                }
-                rs.close();
-                ps.close();
-                db.close();
-            }catch (SQLException error){
-                System.out.println("ERROR: " + error.toString());
-                return null;
-            }
-        }
-        return null;
-    }    
+//    public Days FindById(Teacher tea){
+//        if(db.open()){
+//            sql = "SELECT *  FROM tb_days WHERE day_tea_id = ?";
+//            try{                
+//                ps = db.connection.prepareStatement(sql);
+//                ps.setInt(1, tea.getId());
+//                rs = ps.executeQuery();
+//                if(rs.next()){
+//                    Days day = new Days();
+//                    TeacherDAO tdao = new TeacherDAO();
+//                    day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
+//                    day.setName(rs.getString("day_name"));
+//                    day.setSigla(rs.getString("day_acro"));
+//                    day.setShift(rs.getInt("day_shift"));
+//                    rs.close();
+//                    ps.close();
+//                    db.close();
+//                    return day;  
+//                }
+//                rs.close();
+//                ps.close();
+//                db.close();
+//            }catch (SQLException error){
+//                System.out.println("ERROR: " + error.toString());
+//                return null;
+//            }
+//        }
+//        return null;
+//    }
+//        
+//    public Days FindByDay(String name){
+//        if(db.open()){
+//            sql = "SELECT *  FROM tb_days WHERE day_name = ?";
+//            try{
+//                ps = db.connection.prepareStatement(sql);
+//                ps.setString(1, name.trim());
+//                rs = ps.executeQuery();
+//                if(rs.next()){
+//                    Days day = new Days();
+//                    TeacherDAO tdao = new TeacherDAO();
+//                    day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
+//                    day.setName(rs.getString("day_name"));
+//                    day.setSigla(rs.getString("day_acro"));
+//                    rs.close();
+//                    ps.close();
+//                    db.close();
+//                    return day;  
+//                }
+//                rs.close();
+//                ps.close();
+//                db.close();
+//            }catch (SQLException error){
+//                System.out.println("ERROR: " + error.toString());
+//                return null;
+//            }
+//        }
+//        return null;
+//    }
+//    
+//    public Days FindByAcro(String acro){
+//        if(db.open()){
+//            sql = "SELECT *  FROM tb_days WHERE day_name = ?";
+//            try{
+//                ps = db.connection.prepareStatement(sql);
+//                ps.setString(1, acro.trim());
+//                rs = ps.executeQuery();
+//                if(rs.next()){
+//                    Days day = new Days();
+//                    TeacherDAO tdao = new TeacherDAO();
+//                    day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
+//                    day.setName(rs.getString("day_name"));
+//                    day.setSigla(rs.getString("day_acro"));
+//                    day.setSigla(rs.getString("day_acro"));
+//                    rs.close();
+//                    ps.close();
+//                    db.close();
+//                    return day;  
+//                }
+//                rs.close();
+//                ps.close();
+//                db.close();
+//            }catch (SQLException error){
+//                System.out.println("ERROR: " + error.toString());
+//                return null;
+//            }
+//        }
+//        return null;
+//    }    
 }

@@ -7,11 +7,11 @@ public class Teacher {
     private int rg;
     private String name;
     private String langauge;
-    private Phone phone;
+    private String phone;
     
     public Teacher(){}
     
-    public Teacher(int id, int rg, String name, String language, Phone phone){
+    public Teacher(int id, int rg, String name, String language, String phone){
         this.id = id;
         this.name = name;
         this.rg = rg;
@@ -45,14 +45,14 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher{" + "id=" + id + "rg=" + rg + ", name=" + name + ", langauge=" + langauge + ", phone=" + phone.toString() + '}';
+        return "Teacher{" + "id=" + id + "rg=" + rg + ", name=" + name + ", langauge=" + langauge + ", phone=" + phone + '}';
     }
 
-    public Phone getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Phone phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

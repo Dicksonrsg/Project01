@@ -104,9 +104,10 @@ public class PhonesDAO {
         return null;
     }
     
-    public Phone select(int id){
+    public List<Phone> select(int id){
         if(db.open()){
             Phone phone = new Phone();
+            List<Phone> phones = new ArrayList();
             TeacherDAO tdao = new TeacherDAO();
             sql = "SELECT * FROM tb_phones_of_teachers WHERE  pot_tea_id = ?";
             try{
@@ -116,11 +117,12 @@ public class PhonesDAO {
                 if(rs.next()){
                     phone.setTeacher(tdao.select(rs.getInt("pot_tea_id")));
                     phone.setPhone(rs.getString(2));
+                    phones.add(phone);
                 }
                 rs.close();
                 ps.close();
                 db.close();
-                return phone;
+                return phones;
             }catch(SQLException error){
                 System.out.println("ERRO: " + error.toString());
             } 
