@@ -60,21 +60,45 @@ public class MainUI extends JFrame{
           }
 
           @Override
+          public void mouseReleased(MouseEvent e) {             
+          }
+
+          @Override
+          public void mouseEntered(MouseEvent e) {              
+          }
+
+          @Override
+          public void mouseExited(MouseEvent e) {             
+          }
+      });
+      mnRegister.addMouseListener(new MouseListener() {
+
+          @Override
+          public void mouseClicked(MouseEvent e) {
+              RegisterUI reg = new RegisterUI();
+              contentPane.removeAll();
+              contentPane.add(reg);
+              contentPane.validate();              
+          }
+
+          @Override
+          public void mousePressed(MouseEvent e) {
+              mnRegister.setForeground(Color.BLUE);
+          }
+
+          @Override
           public void mouseReleased(MouseEvent e) {
               
           }
 
           @Override
           public void mouseEntered(MouseEvent e) {
-              
           }
 
           @Override
           public void mouseExited(MouseEvent e) {
-              
           }
       });
-        
     }
     
     public static void main(String[] args) {
