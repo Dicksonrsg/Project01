@@ -32,5 +32,12 @@ public class DaysCtrl {
         return ddao.update(day);
     }
     
-    public List<Days> list()
+    public List<Days> list(int id){
+        if (id == 0){
+            return ddao.selectAll();
+        }
+        else{
+            return ddao.FindById(tdao.select(id));
+        }
+    }
 }
