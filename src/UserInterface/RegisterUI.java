@@ -315,5 +315,23 @@ public class RegisterUI extends JPanel{
                 tfPhone.setText("");
             }
         });
+        
+        jbInserir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(tfName.getText().equals("") || tfLanguage.getText().equals("") || tfRnumber.getText().equals("") || tfPhone.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "Os campos: Nome, Matricula, Lingua e Telefone são obrigatorios!");
+				}else{
+					TeacherCtrl tctrl = new TeacherCtrl();
+					String name = tfName.getText();
+					String lang = tfLanguage.getText();
+					int rn = Integer.parseInt(tfRnumber.getText());
+					tctrl.register(rn, name, lang);
+				}
+				
+			}
+		});
 	}        
 }
