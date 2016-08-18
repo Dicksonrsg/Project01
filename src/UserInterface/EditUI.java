@@ -7,14 +7,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-public class RegisterUI extends JPanel{
+public class EditUI extends JPanel{
     
    /*tfRnumber to campo de texto para matricula, jlRNumber to label matricula*/
        
@@ -30,7 +30,7 @@ public class RegisterUI extends JPanel{
     private JCheckBox jcSatS, ckMon, ckTue, ckWed, ckThu, ckFri, ckSat;
     private MaskFormatter mask;
 
-    public RegisterUI(){
+    public EditUI(){
         startComponents();
         setEvents();    	
     }
@@ -59,8 +59,8 @@ public class RegisterUI extends JPanel{
                 
 		add(tfName); add(tfRnumber); add(tfLanguage);                
 		
-		jbInserir = new JButton("Cadastrar");
-		jbClean = new JButton("Limpar");
+		jbInserir = new JButton("Salvar");
+		jbClean = new JButton("Cancelar");
                 
                 jbInserir.setBounds(120, 340, 100, 30);
                 jbClean.setBounds(230, 340, 100, 30);
@@ -315,5 +315,5 @@ public class RegisterUI extends JPanel{
                 tfPhone.setText("");
             }
         });
-	}        
+	}    
 }

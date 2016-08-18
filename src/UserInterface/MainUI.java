@@ -84,6 +84,9 @@ public class MainUI extends JFrame{
           @Override
           public void mousePressed(MouseEvent e) {
               mnRegister.setForeground(Color.BLUE);
+              mnEdit.setForeground(Color.BLACK);
+              mnDelete.setForeground(Color.BLACK);
+              mnSearch.setForeground(Color.BLACK);
           }
 
           @Override
@@ -97,6 +100,102 @@ public class MainUI extends JFrame{
 
           @Override
           public void mouseExited(MouseEvent e) {
+          }
+      });
+      
+      mnEdit.addMouseListener(new MouseListener() {
+
+          @Override
+          public void mouseClicked(MouseEvent e) {
+              EditUI ed = new EditUI();
+              contentPane.removeAll();
+              contentPane.add(ed);
+              contentPane.validate();
+          }
+
+          @Override
+          public void mousePressed(MouseEvent e) {
+              mnRegister.setForeground(Color.BLACK);
+              mnEdit.setForeground(Color.BLUE);
+              mnDelete.setForeground(Color.BLACK);
+              mnSearch.setForeground(Color.BLACK);              
+          }
+
+          @Override
+          public void mouseReleased(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mouseEntered(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mouseExited(MouseEvent e) {
+              
+          }
+      });
+      
+      mnDelete.addMouseListener(new MouseListener() {
+
+          @Override
+          public void mouseClicked(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mousePressed(MouseEvent e) {
+              mnRegister.setForeground(Color.BLACK);
+              mnEdit.setForeground(Color.BLACK);
+              mnDelete.setForeground(Color.BLUE);
+              mnSearch.setForeground(Color.BLACK);              
+          }
+
+          @Override
+          public void mouseReleased(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mouseEntered(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mouseExited(MouseEvent e) {
+              
+          }
+      });
+      
+      mnSearch.addMouseListener(new MouseListener() {
+
+          @Override
+          public void mouseClicked(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mousePressed(MouseEvent e) {
+              mnRegister.setForeground(Color.BLACK);
+              mnEdit.setForeground(Color.BLACK);
+              mnDelete.setForeground(Color.BLACK);
+              mnSearch.setForeground(Color.BLUE);              
+          }
+
+          @Override
+          public void mouseReleased(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mouseEntered(MouseEvent e) {
+              
+          }
+
+          @Override
+          public void mouseExited(MouseEvent e) {
+              
           }
       });
     }
