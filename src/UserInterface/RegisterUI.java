@@ -40,7 +40,8 @@ public class RegisterUI extends JPanel{
 
     public RegisterUI(){
         startComponents();
-        setEvents();    	
+        setEvents();
+        cleanCheckBox();
     }
     
 	private void startComponents() {
@@ -68,7 +69,7 @@ public class RegisterUI extends JPanel{
 		add(tfName); add(tfRnumber); add(tfLanguage);                
 		
 		jbInserir = new JButton("Cadastrar");
-		jbClean = new JButton("Limpar");
+		jbClean = new JButton("Cancelar");
                 
                 jbInserir.setBounds(120, 340, 100, 30);
                 jbClean.setBounds(230, 340, 100, 30);
@@ -188,7 +189,15 @@ public class RegisterUI extends JPanel{
 						                                                              		                
                 add(jcSatS);
 	}
-	
+	private void cleanCheckBox(){
+            ckMon.setSelected(false);
+            ckTue.setSelected(false);
+            ckWed.setSelected(false);
+            ckThu.setSelected(false);
+            ckFri.setSelected(false);
+            ckSat.setSelected(false);
+        } 
+        
 	private void setEvents() {
 	ckMon.addItemListener(new ItemListener() {
 
@@ -321,6 +330,8 @@ public class RegisterUI extends JPanel{
                 tfRnumber.setText("");
                 tfLanguage.setText("");
                 tfPhone.setText("");
+                cleanCheckBox();
+                
             }
         });
         
@@ -352,41 +363,105 @@ public class RegisterUI extends JPanel{
         
         jbInserir.addActionListener(new ActionListener() {
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Masker m = new Masker();
-				if(tfName.getText().equals("") || tfLanguage.getText().equals("") || tfRnumber.getText().equals("") || m.clear(tfPhone.getText()).equals("")){
-					JOptionPane.showMessageDialog(null, "Os campos: Nome, Matricula, Lingua e Telefone são obrigatorios!");
-				}else{
-					TeacherCtrl tctrl = new TeacherCtrl();
+            @Override
+		public void actionPerformed(ActionEvent e) {
+                    Masker m = new Masker();
+                    if(tfName.getText().equals("") || tfLanguage.getText().equals("") || tfRnumber.getText().equals("") || m.clear(tfPhone.getText()).equals("")){
+			JOptionPane.showMessageDialog(null, "Os campos: Nome, Matricula, Lingua e Telefone são obrigatorios!");
+                    }else{
+			TeacherCtrl tctrl = new TeacherCtrl();
                                         
-					String name = tfName.getText();
-					String lang = tfLanguage.getText();                                        
-					int rn = Integer.parseInt(tfRnumber.getText());
-					tctrl.register(rn, name, lang);
+			String name = tfName.getText();
+			String lang = tfLanguage.getText();                                        
+			int rn = Integer.parseInt(tfRnumber.getText());
+			tctrl.register(rn, name, lang);
                                         
-                                        PhoneCtrl pctrl = new PhoneCtrl();                                        
-                                        String phone = m.clear(tfPhone.getText());
-                                        int id = tctrl.FindByRG(rn).getId();
+                        PhoneCtrl pctrl = new PhoneCtrl();                                        
+                        String phone = m.clear(tfPhone.getText());
+                        int id = tctrl.FindByRG(rn).getId();
                                         
-                                        pctrl.register(id, phone);
-                                        String day = "";
-                                        String sigla = "";
-                                        int shift = 0;
-                                        DaysCtrl dctrl = new DaysCtrl();
-                                        if(ckMon.isSelected()){
-                                            day = "Monday";
-                                            if(jcMS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
-                                            if(jcMS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
-                                            if(jcMS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
-                                            if(jcMS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
-                                            if(jcMS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
-                                            if(jcMS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
-                                        }
-                                        
-				}
+                        pctrl.register(id, phone);
+                        String day = "";
+                        String sigla = "";
+                        int shift = 0;
+                        DaysCtrl dctrl = new DaysCtrl();
+                        if(ckMon.isSelected()){
+                            day = "Segunda";
+                            if(jcMS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
+                            if(jcMS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
+                            if(jcMS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
+                            if(jcMS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
+                            if(jcMS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
+                            if(jcMS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                        }
+                        if(ckTue.isSelected()){
+                            day = "Terca";
+                            if(jcTS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
+                            if(jcTS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
+                            if(jcTS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
+                            if(jcTS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
+                            if(jcTS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
+                            if(jcTS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                        }
+                        if(ckWed.isSelected()){
+                            day = "Quarta";
+                            if(jcWS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
+                            if(jcWS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
+                            if(jcWS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
+                            if(jcWS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
+                            if(jcWS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
+                            if(jcWS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                        }
+                        if(ckThu.isSelected()){
+                            day = "Quinta";
+                            if(jcThS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
+                            if(jcThS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
+                            if(jcThS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
+                            if(jcThS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
+                            if(jcThS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
+                            if(jcThS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                        }
+                        if(ckFri.isSelected()){
+                            day = "Quarta";
+                            if(jcFS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
+                            if(jcFS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
+                            if(jcFS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
+                            if(jcFS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
+                            if(jcFS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
+                            if(jcFS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                        }
+                        if(ckSat.isSelected()){
+                            day = "Sabado";
+                            shift = 7;
+                            dctrl.register(day, sigla, shift, id);
+                        }
+		}
 				
-			}
-		});
+            }
+	});
+        tfRnumber.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String text = tfRnumber.getText();
+		int ke = e.getKeyCode();
+				 
+		if(ke != KeyEvent.VK_BACK_SPACE && ke != KeyEvent.VK_ENTER && ke != KeyEvent.VK_ESCAPE){
+                    try{
+                        int rn = Integer.parseInt(text);
+			}catch(NumberFormatException nfe){
+			JOptionPane.showMessageDialog(null, "Use apenas Números", "Input error", JOptionPane.ERROR_MESSAGE);
+				                
+            }
+        }
 	}        
+        });      
+    }
 }
+                   

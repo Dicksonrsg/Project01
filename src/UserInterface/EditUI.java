@@ -5,11 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -32,7 +35,8 @@ public class EditUI extends JPanel{
 
     public EditUI(){
         startComponents();
-        setEvents();    	
+        setEvents();
+        cleanCheckBox();
     }
     
 	private void startComponents() {
@@ -180,7 +184,16 @@ public class EditUI extends JPanel{
 						                                                              		                
                 add(jcSatS);
 	}
-	
+        
+	private void cleanCheckBox(){
+            ckMon.setSelected(false);
+            ckTue.setSelected(false);
+            ckWed.setSelected(false);
+            ckThu.setSelected(false);
+            ckFri.setSelected(false);
+            ckSat.setSelected(false);
+        }
+        
 	private void setEvents() {
 	ckMon.addItemListener(new ItemListener() {
 
@@ -317,24 +330,54 @@ public class EditUI extends JPanel{
         });
         
         tfRnumber.addKeyListener(new KeyListener() {
-			
-		@Override
-		public void keyTyped(KeyEvent e) {					
-			}
-			
-		@Override
-		public void keyReleased(KeyEvent e) {
-			String text = tfRnumber.getText();
-			int ke = e.getKeyCode();
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String text = tfRnumber.getText();
+		int ke = e.getKeyCode();
 				 
-			if(ke != KeyEvent.VK_BACK_SPACE && ke != KeyEvent.VK_ENTER && ke != KeyEvent.VK_ESCAPE){
-			try{
-				int rn = Integer.parseInt(text);
-				}catch(NumberFormatException nfe){
-					JOptionPane.showMessageDialog(null, "Use apenas Números", "Input error", JOptionPane.ERROR_MESSAGE);
+		if(ke != KeyEvent.VK_BACK_SPACE && ke != KeyEvent.VK_ENTER && ke != KeyEvent.VK_ESCAPE){
+                    try{
+                        int rn = Integer.parseInt(text);
+			}catch(NumberFormatException nfe){
+			JOptionPane.showMessageDialog(null, "Use apenas Números", "Input error", JOptionPane.ERROR_MESSAGE);
 				}				
 				
-			}
-			}
-	}    
+		}
+            }
+	}); 
+        tfPhone.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String text = tfRnumber.getText();
+		int ke = e.getKeyCode();
+				 
+		if(ke != KeyEvent.VK_BACK_SPACE && ke != KeyEvent.VK_ENTER && ke != KeyEvent.VK_ESCAPE){
+                    try{
+                        int rn = Integer.parseInt(text);
+			}catch(NumberFormatException nfe){
+			JOptionPane.showMessageDialog(null, "Use apenas Números", "Input error", JOptionPane.ERROR_MESSAGE);
+				}				
+				
+		}               
+            }
+        });
+}
 }
