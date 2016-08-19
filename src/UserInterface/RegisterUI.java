@@ -1,17 +1,25 @@
 
 package UserInterface;
 
+import CTRL.DaysCtrl;
+import CTRL.Masker;
+import CTRL.PhoneCtrl;
+import CTRL.TeacherCtrl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
 public class RegisterUI extends JPanel{
@@ -316,19 +324,66 @@ public class RegisterUI extends JPanel{
             }
         });
         
+        tfPhone.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                try {
+                    String phone = Masker.clear(tfPhone.getText());
+                    if (Masker.clear(tfPhone.getText()).substring(2, 3).equals("9")) {
+                        mask = new MaskFormatter("(##) #####-####");
+                        tfPhone.setFormatterFactory(new DefaultFormatterFactory(mask));
+                        tfPhone.setText(phone);
+                    } else {
+                        mask = new MaskFormatter("(##) ####-####");
+                        tfPhone.setFormatterFactory(new DefaultFormatterFactory(mask));
+                        tfPhone.setText(phone);
+                    }
+                } catch (StringIndexOutOfBoundsException | ParseException error) {}
+            }
+        });
+        
         jbInserir.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				if(tfName.getText().equals("") || tfLanguage.getText().equals("") || tfRnumber.getText().equals("") || tfPhone.getText().equals("")){
+				Masker m = new Masker();
+				if(tfName.getText().equals("") || tfLanguage.getText().equals("") || tfRnumber.getText().equals("") || m.clear(tfPhone.getText()).equals("")){
 					JOptionPane.showMessageDialog(null, "Os campos: Nome, Matricula, Lingua e Telefone são obrigatorios!");
 				}else{
 					TeacherCtrl tctrl = new TeacherCtrl();
+                                        
 					String name = tfName.getText();
-					String lang = tfLanguage.getText();
+					String lang = tfLanguage.getText();                                        
 					int rn = Integer.parseInt(tfRnumber.getText());
 					tctrl.register(rn, name, lang);
+                                        
+                                        PhoneCtrl pctrl = new PhoneCtrl();                                        
+                                        String phone = m.clear(tfPhone.getText());
+                                        int id = tctrl.FindByRG(rn).getId();
+                                        
+                                        pctrl.register(id, phone);
+                                        String day = "";
+                                        String sigla = "";
+                                        int shift = 0;
+                                        DaysCtrl dctrl = new DaysCtrl();
+                                        if(ckMon.isSelected()){
+                                            day = "Monday";
+                                            if(jcMS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
+                                            if(jcMS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
+                                            if(jcMS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
+                                            if(jcMS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
+                                            if(jcMS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
+                                            if(jcMS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                                        }
+                                        
 				}
 				
 			}

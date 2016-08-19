@@ -159,5 +159,31 @@ public class TeacherDAO {
         }
         db.close();
         return null;   
+    } 
+    
+    public Teacher findByRG(int rg){
+        if(db.open()){
+            Teacher teacher = new Teacher();
+            sql = "SELECT * FROM tb_teachers WHERE tea_rg = ?";
+            try{
+                ps = db.connection.prepareStatement(sql);
+                ps.setInt(1, rg);
+                rs = ps.executeQuery();
+                if(rs.next()){
+                    teacher.setId(rs.getInt(1));
+                    teacher.setName(rs.getString(2));
+                    teacher.setLangauge(rs.getString(3));
+                    teacher.setRg(rs.getInt(4));
+                }
+                rs.close();
+                ps.close();
+                db.close();
+                return teacher;
+            }catch(SQLException error){
+                System.out.println("ERRO: " + error.toString());
+            } 
+        }
+        db.close();
+        return null;   
     }    
 }

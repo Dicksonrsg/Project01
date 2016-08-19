@@ -43,6 +43,10 @@ public class TeacherCtrl {
         teacher.setId(id);
         return tdao.delete(teacher);
     }
+    
+    public Teacher FindByRG(int rg){
+        return tdao.findByRG(rg);   
+    }
 }
 
 
