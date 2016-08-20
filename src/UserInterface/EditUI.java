@@ -1,6 +1,7 @@
 
 package UserInterface;
 
+import CTRL.TeacherCtrl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -16,13 +17,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+import model.Teacher;
 
 public class EditUI extends JPanel{
     
    /*tfRnumber to campo de texto para matricula, jlRNumber to label matricula*/
        
-    private JTextField tfName, tfRnumber, tfLanguage;
-    private JFormattedTextField tfPhone;
+    private JTextField tfName, tfLanguage;
+    private JFormattedTextField tfPhone, tfRnumber;
     private JButton jbInserir, jbClean;
     private JLabel jlName, jlRnumber,jlPhone, jlLanguage; 
     private JCheckBox jcMS1, jcMS2, jcMS3, jcMS4, jcMS5, jcMS6;
@@ -31,7 +33,7 @@ public class EditUI extends JPanel{
     private JCheckBox jcThS1, jcThS2, jcThS3, jcThS4, jcThS5, jcThS6;
     private JCheckBox jcFS1, jcFS2, jcFS3, jcFS4, jcFS5, jcFS6;
     private JCheckBox jcSatS, ckMon, ckTue, ckWed, ckThu, ckFri, ckSat;
-    private MaskFormatter mask;
+    private MaskFormatter mask, maskr;
 
     public EditUI(){
         startComponents();
@@ -43,7 +45,6 @@ public class EditUI extends JPanel{
 		setLayout(null);
 		
 		tfName = new JTextField();
-		tfRnumber = new JTextField();
 		tfLanguage = new JTextField();
                 
                 try{
@@ -56,12 +57,21 @@ public class EditUI extends JPanel{
                     add(tfPhone);
                 }
                 
-                tfRnumber.setBounds(70, 15, 50, 20);
+                try{
+                    maskr = new MaskFormatter("####");
+                    tfRnumber = new JFormattedTextField(maskr);
+                }catch(ParseException error){
+                    System.out.println("Error: " + error.toString());
+                }finally{
+                    tfRnumber.setBounds(70, 15, 50, 20);
+                    add(tfRnumber);
+                }                
+                               
                 tfName.setBounds(70, 40, 300, 20);
                 tfLanguage.setBounds(70, 65, 150, 20);
                  
                 
-		add(tfName); add(tfRnumber); add(tfLanguage);                
+		add(tfName); add(tfLanguage);                
 		
 		jbInserir = new JButton("Salvar");
 		jbClean = new JButton("Cancelar");
@@ -195,6 +205,8 @@ public class EditUI extends JPanel{
         }
         
 	private void setEvents() {
+            TeacherCtrl tctrl = new TeacherCtrl();
+            
 	ckMon.addItemListener(new ItemListener() {
 
             @Override
@@ -343,17 +355,13 @@ public class EditUI extends JPanel{
 
             @Override
             public void keyReleased(KeyEvent e) {
-                String text = tfRnumber.getText();
-		int ke = e.getKeyCode();
-				 
-		if(ke != KeyEvent.VK_BACK_SPACE && ke != KeyEvent.VK_ENTER && ke != KeyEvent.VK_ESCAPE){
-                    try{
-                        int rn = Integer.parseInt(text);
-			}catch(NumberFormatException nfe){
-			JOptionPane.showMessageDialog(null, "Use apenas Números", "Input error", JOptionPane.ERROR_MESSAGE);
-				}				
-				
-		}
+                            if(tfRnumber.getText().length() > 3){
+                            int rg = Integer.parseInt(tfRnumber.getText());
+                            Teacher tea = new Teacher();
+                            tea = tctrl.FindByRG(rg);
+                            tfName.setText(tea.getName());
+                            tfLanguage.setText(tea.getLangauge());
+                            }
             }
 	}); 
         tfPhone.addKeyListener(new KeyListener() {
