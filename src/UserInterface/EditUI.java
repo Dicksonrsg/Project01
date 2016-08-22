@@ -364,28 +364,5 @@ public class EditUI extends JPanel{
                             }
             }
 	}); 
-        tfPhone.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {}
-
-            @Override
-            public void keyPressed(KeyEvent e) {}
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String text = tfRnumber.getText();
-		int ke = e.getKeyCode();
-				 
-		if(ke != KeyEvent.VK_BACK_SPACE && ke != KeyEvent.VK_ENTER && ke != KeyEvent.VK_ESCAPE){
-                    try{
-                        int rn = Integer.parseInt(text);
-			}catch(NumberFormatException nfe){
-			JOptionPane.showMessageDialog(null, "Use apenas Números", "Input error", JOptionPane.ERROR_MESSAGE);
-				}				
-				
-		}               
-            }
-        });
 }
 }
