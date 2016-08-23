@@ -7,16 +7,14 @@ public class Teacher {
     private int rg;
     private String name;
     private String langauge;
-    private String phone;
     
     public Teacher(){}
     
-    public Teacher(int id, int rg, String name, String language, String phone){
+    public Teacher(int id, int rg, String name, String language){
         this.id = id;
         this.name = name;
         this.rg = rg;
         this.langauge = language;
-        this.phone = phone;
     }
 
     public int getId() {
@@ -45,15 +43,7 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher{" + "id=" + id + "rg=" + rg + ", name=" + name + ", langauge=" + langauge + ", phone=" + phone + '}';
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+        return "Teacher{" + "id=" + id + "rg=" + rg + ", name=" + name + ", langauge=" + langauge + '}';
     }
 
     public int getRg() {

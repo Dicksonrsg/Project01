@@ -37,7 +37,7 @@ public class DaysCtrl {
             return ddao.selectAll();
         }
         else{
-            return ddao.FindById(tdao.select(id));
+            return ddao.FindById(id);
         }
     }
 }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.binding.Bindings;
 import model.Phone;
 
 public class PhonesDAO {
@@ -116,7 +117,7 @@ public class PhonesDAO {
                 rs = ps.executeQuery();
                 if(rs.next()){
                     phone.setTeacher(tdao.select(rs.getInt("pot_tea_id")));
-                    phone.setPhone(rs.getString(2));
+                    phone.setPhone(rs.getString(1));
                     phones.add(phone);
                 }
                 rs.close();
@@ -129,5 +130,14 @@ public class PhonesDAO {
         }
         db.close();
         return null;   
-    }    
+    }
+    
+    /*public static void main(String[] args) {
+        List ph = new ArrayList();
+        int id = 1;
+        PhonesDAO pd = new PhonesDAO();
+        ph = pd.select(id);
+        
+        System.out.println(ph.get(0).toString());
+    }*/
 }

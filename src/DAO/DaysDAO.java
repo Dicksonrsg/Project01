@@ -113,13 +113,13 @@ public class DaysDAO{
         
       
     
-    public List<Days> FindById(Teacher tea){
+    public List<Days> FindById(int id){
         if(db.open()){
             List<Days> ds = new ArrayList<>();
             sql = "SELECT *  FROM tb_days WHERE day_tea_id = ?";
             try{                
                 ps = db.connection.prepareStatement(sql);
-                ps.setInt(1, tea.getId());
+                ps.setInt(1, id);
                 rs = ps.executeQuery();
                 while(rs.next()){
                     Days day = new Days();
@@ -128,10 +128,7 @@ public class DaysDAO{
                     day.setName(rs.getString("day_name"));
                     day.setSigla(rs.getString("day_acro"));
                     day.setShift(rs.getInt("day_shift"));
-                    rs.close();
-                    ps.close();
-                    db.close();
-                    ds.add(day);  
+                    ds.add(day);                   
                 }
                 rs.close();
                 ps.close();
