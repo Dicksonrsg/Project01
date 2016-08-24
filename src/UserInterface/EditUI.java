@@ -2,19 +2,16 @@
 package UserInterface;
 
 import CTRL.DaysCtrl;
-import CTRL.Masker;
 import CTRL.PhoneCtrl;
 import CTRL.TeacherCtrl;
-import DAO.PhonesDAO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
@@ -46,6 +43,7 @@ public class EditUI extends JPanel{
         startComponents();
         setEvents();
         cleanCheckBox();
+
     }
     
 	private void startComponents() {
@@ -210,7 +208,133 @@ public class EditUI extends JPanel{
             ckFri.setSelected(false);
             ckSat.setSelected(false);
         }
-        
+        private void boxChecker(String d, int s){
+            switch(d){
+                case "Segunda": case "segunda":
+                    ckMon.setSelected(true);
+                    switch(s){
+                        case 1:
+                            jcMS1.setSelected(true);
+                            break;
+                        case 2:
+                            jcMS2.setSelected(true);
+                            break;
+                        case 3:    
+                            jcMS3.setSelected(true);
+                            break;
+                        case 4:    
+                            jcMS4.setSelected(true);
+                            break;
+                        case 5:    
+                            jcMS5.setEnabled(true);
+                            break;
+                        case 6:
+                            jcMS6.setEnabled(true);
+                            break;
+                    };
+                    break;
+                    
+                case "Terca":
+                    ckTue.setSelected(true);
+                    switch(s){
+                        case 1:
+                            jcTS1.setSelected(true);
+                            break;
+                        case 2:
+                            jcTS2.setSelected(true);
+                            break;
+                        case 3:    
+                            jcTS3.setSelected(true);
+                            break;
+                        case 4:    
+                            jcTS4.setSelected(true);
+                            break;
+                        case 5:    
+                            jcTS5.setEnabled(true);
+                            break;
+                        case 6:
+                            jcTS6.setEnabled(true);
+                            break;                        
+                    };
+                    break;
+                    
+                case "Quarta":
+                    ckWed.setSelected(true);
+                    switch(s){
+                        case 1:
+                            jcWS1.setSelected(true);
+                            break;
+                        case 2:
+                            jcWS2.setSelected(true);
+                            break;
+                        case 3:    
+                            jcWS3.setSelected(true);
+                            break;
+                        case 4:    
+                            jcWS4.setSelected(true);
+                            break;
+                        case 5:    
+                            jcWS5.setEnabled(true);
+                            break;
+                        case 6:
+                            jcWS6.setEnabled(true);
+                            break;
+                    };
+                    break;
+                    
+                case "Quinta":
+                    ckThu.setSelected(true);
+                    switch(s){
+                        case 1:
+                            jcThS1.setSelected(true);
+                            break;
+                        case 2:
+                            jcThS2.setSelected(true);
+                            break;
+                        case 3:    
+                            jcThS3.setSelected(true);
+                            break;
+                        case 4:    
+                            jcThS4.setSelected(true);
+                            break;
+                        case 5:    
+                            jcThS5.setEnabled(true);
+                            break;
+                        case 6:
+                            jcThS6.setEnabled(true);
+                            break;
+                    };
+                    break;
+                    
+                case "Sexta":
+                    ckFri.setSelected(true);
+                    switch(s){
+                        case 1:
+                            jcFS1.setSelected(true);
+                            break;
+                        case 2:
+                            jcFS2.setSelected(true);
+                            break;
+                        case 3:    
+                            jcFS3.setSelected(true);
+                            break;
+                        case 4:    
+                            jcFS4.setSelected(true);
+                            break;
+                        case 5:    
+                            jcFS5.setEnabled(true);
+                            break;
+                        case 6:
+                            jcFS6.setEnabled(true);
+                            break;
+                    };
+                    break;
+                case "Sabado":
+                    ckSat.setSelected(true);
+                    break;
+            };
+        }
+   
 	private void setEvents() {
             TeacherCtrl tctrl = new TeacherCtrl();
             PhoneCtrl pctrl = new PhoneCtrl();
@@ -325,6 +449,7 @@ public class EditUI extends JPanel{
                 }
             }
         }); 
+        
 	ckSat.addItemListener(new ItemListener() {
 
             @Override
@@ -347,6 +472,7 @@ public class EditUI extends JPanel{
                 tfRnumber.setText("");
                 tfLanguage.setText("");
                 tfPhone.setText("");
+                cleanCheckBox();
             }
         });
         
@@ -364,24 +490,43 @@ public class EditUI extends JPanel{
 
             @Override
             public void keyReleased(KeyEvent e) {
+                Teacher tea = new Teacher();
                 if(tfRnumber.getText().length() > 3){
+                    try{
                     int rg = Integer.parseInt(tfRnumber.getText());
-                    Teacher tea = new Teacher();
                     tea = tctrl.FindByRG(rg);
                     tfName.setText(tea.getName());
                     tfLanguage.setText(tea.getLangauge());
-                    
+                    }catch(NumberFormatException error){
+                        System.out.println(error.toString());
+                    }catch(NullPointerException error1){
+                        System.out.println(error1.toString());
+                    }
                     int id = tea.getId();
                     for(Phone phone : pctrl.list(id)){
                         tfPhone.setText(phone.getPhone());
                     }
                     
                     for(Days day : dctrl.list(id)){
-                        
-                    
+                        System.out.println(day);
+                        System.out.println(day.getName());
+                        String da = day.getName();
+                        int sh = day.getShift();
+                        boxChecker(da, sh);
                     }
                 }
             }
-	}); 
+	});
+        
+        jbInserir.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int rg = Integer.parseInt(tfRnumber.getText());
+                    String newn = tfName.getText();
+                    String newl = tfLanguage.getText();
+                    tctrl.update(rg, newn, newl);
+                }
+            });
     }
 }

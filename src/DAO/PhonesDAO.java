@@ -110,7 +110,7 @@ public class PhonesDAO {
             Phone phone = new Phone();
             List<Phone> phones = new ArrayList();
             TeacherDAO tdao = new TeacherDAO();
-            sql = "SELECT * FROM tb_phones_of_teachers WHERE  pot_tea_id = ?";
+            sql = "SELECT * FROM tb_phones_of_teachers WHERE pot_tea_id = ?";
             try{
                 ps = db.connection.prepareStatement(sql);
                 ps.setInt(1, id);
