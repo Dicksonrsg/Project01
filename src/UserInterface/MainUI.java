@@ -141,7 +141,10 @@ public class MainUI extends JFrame{
 
           @Override
           public void mouseClicked(MouseEvent e) {
-              
+              DeleteUI delui = new DeleteUI();
+              contentPane.removeAll();
+              contentPane.add(delui);
+              contentPane.validate();
           }
 
           @Override

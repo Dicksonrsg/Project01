@@ -21,8 +21,9 @@ public class TeacherCtrl {
         return tdao.insert(newt);
     }
     
-    public boolean update(int rg, String name, String language){
+    public boolean update(int id, int rg, String name, String language){
         Teacher teacher = new Teacher();
+        teacher.setId(id);
         teacher.setRg(rg);
         teacher.setName(name);
         teacher.setLangauge(language);

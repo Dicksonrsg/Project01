@@ -6,7 +6,6 @@ public class Days {
     private Teacher teacher;
     private int shift;
     private String name;
-    private String sigla;
 
     public Teacher getTeacher() {
         return teacher;
@@ -32,17 +31,9 @@ public class Days {
         this.name = name;
     }
 
-    public String getSigla() {
-        return sigla;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }
-
     @Override
     public String toString() {
-        return "Days{" + "teacher=" + teacher.toString() + ", shift=" + shift + ", name=" + name + ", sigla=" + sigla + '}';
+        return "Days{" + "teacher=" + teacher.toString() + ", shift=" + shift + ", name=" + name +'}';
     }
    
 }

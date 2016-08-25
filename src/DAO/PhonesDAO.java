@@ -62,7 +62,7 @@ public class PhonesDAO {
     
     public boolean update(Phone phone){
         if(db.open()){
-            sql = "UPDATE tb_phones_of_teachers SET pot_phone = ? WHERE pot_tea_id";
+            sql = "UPDATE tb_phones_of_teachers SET pot_phone = ? WHERE pot_tea_id = ?";
             try{
                 ps = db.connection.prepareStatement(sql);
                 ps.setString(1, phone.getPhone());

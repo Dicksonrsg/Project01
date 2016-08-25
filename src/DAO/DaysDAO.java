@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Days;
-import model.Teacher;
 
 public class DaysDAO{ 
 
@@ -22,13 +21,12 @@ public class DaysDAO{
     
     public boolean insert(Days day){
         if(db.open()){
-            sql = "INSERT INTO tb_days (day_name, day_acro, day_shift, day_tea_id) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO tb_days (day_name, day_shift, day_tea_id) VALUES (?, ?, ?)";
             try{
                 ps = db.connection.prepareStatement(sql);
                 ps.setString(1, day.getName());
-                ps.setString(2, day.getSigla());
-                ps.setInt(3, day.getShift());
-                ps.setInt(4, day.getTeacher().getId());
+                ps.setInt(2, day.getShift());
+                ps.setInt(3, day.getTeacher().getId());
 
                 if(ps.executeUpdate() == 1){
                     ps.close();
@@ -64,13 +62,12 @@ public class DaysDAO{
         
     public boolean update(Days day){
         if(db.open()){
-            sql = "UPDATE tb_days SET day_name = ?, day_acro = ?, day_shift = ? WHERE day_tea_id";
+            sql = "UPDATE tb_days SET day_name = ?, day_shift = ? WHERE day_tea_id = ?";
             try{
                 ps = db.connection.prepareStatement(sql);
                 ps.setString(1, day.getName());
-                ps.setString(2, day.getSigla());
-                ps.setInt(3, day.getShift());
-                ps.setInt(4, day.getTeacher().getId());
+                ps.setInt(2, day.getShift());
+                ps.setInt(3, day.getTeacher().getId());
                 if(ps.executeUpdate() == 1){
                     ps.close();
                     db.close();
@@ -96,8 +93,7 @@ public class DaysDAO{
                     TeacherDAO tdao = new TeacherDAO(); 
                     day.setTeacher(tdao.select(rs.getInt("pot_tea_id")));
                     day.setName(rs.getString(2));
-                    day.setSigla(rs.getString(3));
-                    day.setShift(rs.getInt(4));
+                    day.setShift(rs.getInt(3));
                     days.add(day);
                 }
                 rs.close();
@@ -126,7 +122,6 @@ public class DaysDAO{
                     TeacherDAO tdao = new TeacherDAO();
                     day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
                     day.setName(rs.getString("day_name"));
-                    day.setSigla(rs.getString("day_acro"));
                     day.setShift(rs.getInt("day_shift"));
                     ds.add(day);                   
                 }
@@ -154,7 +149,6 @@ public class DaysDAO{
                     TeacherDAO tdao = new TeacherDAO();
                     day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
                     day.setName(rs.getString("day_name"));
-                    day.setSigla(rs.getString("day_acro"));
                     rs.close();
                     ps.close();
                     db.close();
@@ -169,35 +163,5 @@ public class DaysDAO{
             }
         }
         return null;
-    }
-    
-    public Days FindByAcro(String acro){
-        if(db.open()){
-            sql = "SELECT *  FROM tb_days WHERE day_name = ?";
-            try{
-                ps = db.connection.prepareStatement(sql);
-                ps.setString(1, acro.trim());
-                rs = ps.executeQuery();
-                if(rs.next()){
-                    Days day = new Days();
-                    TeacherDAO tdao = new TeacherDAO();
-                    day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
-                    day.setName(rs.getString("day_name"));
-                    day.setSigla(rs.getString("day_acro"));
-                    day.setSigla(rs.getString("day_acro"));
-                    rs.close();
-                    ps.close();
-                    db.close();
-                    return day;  
-                }
-                rs.close();
-                ps.close();
-                db.close();
-            }catch (SQLException error){
-                System.out.println("ERROR: " + error.toString());
-                return null;
-            }
-        }
-        return null;
-    }    
+    }   
 }

@@ -2,15 +2,17 @@
 package UserInterface;
 
 import CTRL.DaysCtrl;
+import CTRL.Masker;
 import CTRL.PhoneCtrl;
 import CTRL.TeacherCtrl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.SQLException;
 import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -339,6 +341,7 @@ public class EditUI extends JPanel{
             TeacherCtrl tctrl = new TeacherCtrl();
             PhoneCtrl pctrl = new PhoneCtrl();
             DaysCtrl dctrl = new DaysCtrl();
+            Masker m2 = new Masker();
             
 	ckMon.addItemListener(new ItemListener() {
 
@@ -476,22 +479,17 @@ public class EditUI extends JPanel{
             }
         });
         
-        tfRnumber.addKeyListener(new KeyListener() {
+        tfRnumber.addFocusListener(new FocusListener() {
 
-            @Override
-            public void keyTyped(KeyEvent e) {
-                
-            }
+                @Override
+                public void focusGained(FocusEvent e) {
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-                
-            }
+                }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                Teacher tea = new Teacher();
-                if(tfRnumber.getText().length() > 3){
+                @Override
+                public void focusLost(FocusEvent e) {
+                    Teacher tea = new Teacher();
+
                     try{
                     int rg = Integer.parseInt(tfRnumber.getText());
                     tea = tctrl.FindByRG(rg);
@@ -502,6 +500,7 @@ public class EditUI extends JPanel{
                     }catch(NullPointerException error1){
                         System.out.println(error1.toString());
                     }
+                    
                     int id = tea.getId();
                     for(Phone phone : pctrl.list(id)){
                         tfPhone.setText(phone.getPhone());
@@ -514,18 +513,25 @@ public class EditUI extends JPanel{
                         int sh = day.getShift();
                         boxChecker(da, sh);
                     }
-                }
-            }
-	});
+                }                    
+                
+            });
         
         jbInserir.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    Teacher teac = new Teacher();
+                    
                     int rg = Integer.parseInt(tfRnumber.getText());
                     String newn = tfName.getText();
                     String newl = tfLanguage.getText();
-                    tctrl.update(rg, newn, newl);
+                    teac = tctrl.FindByRG(rg);
+                    int id = teac.getId();
+                    tctrl.update(id, rg, newn, newl);
+                    
+                    String npho = m2.clear(tfPhone.getText());
+                    pctrl.update(id, npho);
                 }
             });
     }

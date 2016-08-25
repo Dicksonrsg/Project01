@@ -382,58 +382,57 @@ public class RegisterUI extends JPanel{
                                         
                         pctrl.register(id, phone);
                         String day = "";
-                        String sigla = "";
                         int shift = 0;
                         DaysCtrl dctrl = new DaysCtrl();
                         if(ckMon.isSelected()){
                             day = "Segunda";
-                            if(jcMS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
-                            if(jcMS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
-                            if(jcMS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
-                            if(jcMS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
-                            if(jcMS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
-                            if(jcMS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                            if(jcMS1.isSelected()){shift = 1; dctrl.register(day, shift, id);}
+                            if(jcMS2.isSelected()){shift = 2; dctrl.register(day, shift, id);}
+                            if(jcMS3.isSelected()){shift = 3; dctrl.register(day, shift, id);}
+                            if(jcMS4.isSelected()){shift = 4; dctrl.register(day, shift, id);}
+                            if(jcMS5.isSelected()){shift = 5; dctrl.register(day, shift, id);}
+                            if(jcMS1.isSelected()){shift = 6; dctrl.register(day, shift, id);}                                           
                         }
                         if(ckTue.isSelected()){
                             day = "Terca";
-                            if(jcTS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
-                            if(jcTS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
-                            if(jcTS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
-                            if(jcTS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
-                            if(jcTS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
-                            if(jcTS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                            if(jcTS1.isSelected()){shift = 1; dctrl.register(day, shift, id);}
+                            if(jcTS2.isSelected()){shift = 2; dctrl.register(day, shift, id);}
+                            if(jcTS3.isSelected()){shift = 3; dctrl.register(day, shift, id);}
+                            if(jcTS4.isSelected()){shift = 4; dctrl.register(day, shift, id);}
+                            if(jcTS5.isSelected()){shift = 5; dctrl.register(day, shift, id);}
+                            if(jcTS1.isSelected()){shift = 6; dctrl.register(day, shift, id);}                                           
                         }
                         if(ckWed.isSelected()){
                             day = "Quarta";
-                            if(jcWS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
-                            if(jcWS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
-                            if(jcWS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
-                            if(jcWS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
-                            if(jcWS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
-                            if(jcWS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                            if(jcWS1.isSelected()){shift = 1; dctrl.register(day, shift, id);}
+                            if(jcWS2.isSelected()){shift = 2; dctrl.register(day, shift, id);}
+                            if(jcWS3.isSelected()){shift = 3; dctrl.register(day, shift, id);}
+                            if(jcWS4.isSelected()){shift = 4; dctrl.register(day, shift, id);}
+                            if(jcWS5.isSelected()){shift = 5; dctrl.register(day, shift, id);}
+                            if(jcWS1.isSelected()){shift = 6; dctrl.register(day, shift, id);}                                           
                         }
                         if(ckThu.isSelected()){
                             day = "Quinta";
-                            if(jcThS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
-                            if(jcThS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
-                            if(jcThS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
-                            if(jcThS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
-                            if(jcThS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
-                            if(jcThS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                            if(jcThS1.isSelected()){shift = 1; dctrl.register(day, shift, id);}
+                            if(jcThS2.isSelected()){shift = 2; dctrl.register(day, shift, id);}
+                            if(jcThS3.isSelected()){shift = 3; dctrl.register(day, shift, id);}
+                            if(jcThS4.isSelected()){shift = 4; dctrl.register(day, shift, id);}
+                            if(jcThS5.isSelected()){shift = 5; dctrl.register(day, shift, id);}
+                            if(jcThS1.isSelected()){shift = 6; dctrl.register(day, shift, id);}                                           
                         }
                         if(ckFri.isSelected()){
                             day = "Quarta";
-                            if(jcFS1.isSelected()){shift = 1; dctrl.register(day, sigla, shift, id);}
-                            if(jcFS2.isSelected()){shift = 2; dctrl.register(day, sigla, shift, id);}
-                            if(jcFS3.isSelected()){shift = 3; dctrl.register(day, sigla, shift, id);}
-                            if(jcFS4.isSelected()){shift = 4; dctrl.register(day, sigla, shift, id);}
-                            if(jcFS5.isSelected()){shift = 5; dctrl.register(day, sigla, shift, id);}
-                            if(jcFS1.isSelected()){shift = 6; dctrl.register(day, sigla, shift, id);}                                           
+                            if(jcFS1.isSelected()){shift = 1; dctrl.register(day, shift, id);}
+                            if(jcFS2.isSelected()){shift = 2; dctrl.register(day, shift, id);}
+                            if(jcFS3.isSelected()){shift = 3; dctrl.register(day, shift, id);}
+                            if(jcFS4.isSelected()){shift = 4; dctrl.register(day, shift, id);}
+                            if(jcFS5.isSelected()){shift = 5; dctrl.register(day, shift, id);}
+                            if(jcFS1.isSelected()){shift = 6; dctrl.register(day, shift, id);}                                           
                         }
                         if(ckSat.isSelected()){
                             day = "Sabado";
                             shift = 7;
-                            dctrl.register(day, sigla, shift, id);
+                            dctrl.register(day,   shift, id);
                         }
 		}
 				

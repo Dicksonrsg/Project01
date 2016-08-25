@@ -16,17 +16,15 @@ public class DaysCtrl {
         ddao = new DaysDAO();
     }
     
-    public boolean register(String name, String sigla, int shift, int id){
+    public boolean register(String name, int shift, int id){
         day.setName(name);
-        day.setSigla(sigla);
         day.setShift(shift);
         day.setTeacher(tdao.select(id));       
         return ddao.insert(day);   
     }
     
-    public boolean update(String name, String sigla, int shift, int id){
+    public boolean update(String name, int shift, int id){
         day.setName(name);
-        day.setSigla(sigla);
         day.setShift(shift);
         day.setTeacher(tdao.select(id));    
         return ddao.update(day);
