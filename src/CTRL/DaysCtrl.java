@@ -38,4 +38,9 @@ public class DaysCtrl {
             return ddao.FindById(id);
         }
     }
+    
+    public boolean delete(int id){
+    	day.setTeacher(tdao.select(id));
+    	return ddao.delete(day);
+    }    
 }
