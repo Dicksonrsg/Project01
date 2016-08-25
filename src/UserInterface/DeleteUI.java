@@ -63,6 +63,8 @@ public class DeleteUI extends JPanel{
     
     private void setEvents() {
         TeacherCtrl tctrl = new TeacherCtrl();
+        PhoneCtrl pctrl = new PhoneCtrl();
+        DaysCtrl dctrl = new DaysCtrl();
         
         ftRnumber.addFocusListener(new FocusListener() {
 
@@ -100,6 +102,9 @@ public class DeleteUI extends JPanel{
                     int rg = Integer.parseInt(ftRnumber.getText());
                     teac = tctrl.FindByRG(rg);
                     int id = teac.getId();
+                    
+                    pctrl.delete(id);
+                    dctrl.delete(id);
                     tctrl.delete(id);
                 }
             }
