@@ -42,7 +42,7 @@ public class TeacherDAO {
     
     public boolean delete(Teacher teacher){
         if(db.open()){
-            sql = "DELETE FROM project_01 WHERE tea_id = ?";
+            sql = "DELETE FROM tb_teachers WHERE tea_id = ?";
             try{
                 ps = db.connection.prepareStatement(sql);
                 ps.setInt(1, teacher.getId());

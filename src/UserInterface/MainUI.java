@@ -20,6 +20,7 @@ public class MainUI extends JFrame{
     private void startComponents() {
         setTitle("Agenda Substituições");
         setBounds(0, 0, 800, 600);
+        setResizable(false);
         contentPane = getContentPane();
         
         mnBar = new JMenuBar();
@@ -175,7 +176,10 @@ public class MainUI extends JFrame{
 
           @Override
           public void mouseClicked(MouseEvent e) {
-              
+              SearchUI sea = new SearchUI();
+              contentPane.removeAll();
+              contentPane.add(sea);
+              contentPane.validate();
           }
 
           @Override
