@@ -78,8 +78,25 @@ public class SearchUI extends JPanel {
         
         DefaultTableCellRenderer rightalignment = new DefaultTableCellRenderer();
         rightalignment.setHorizontalAlignment(SwingConstants.RIGHT);
+        DefaultTableCellRenderer centeralignment = new DefaultTableCellRenderer();
+        centeralignment.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        tbAva.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tbAva.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tbAva.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tbAva.getColumnModel().getColumn(3).setPreferredWidth(50);
+        tbAva.getColumnModel().getColumn(4).setPreferredWidth(50);
+        tbAva.getColumnModel().getColumn(0).setPreferredWidth(50);
+        
+        tbAva.getColumnModel().getColumn(0).setCellRenderer(centeralignment);
         tbAva.getColumnModel().getColumn(2).setCellRenderer(rightalignment);
         
+        tbAva.getTableHeader().setReorderingAllowed(false);
+        
+        scroll = new JScrollPane();
+        scroll.setViewportView(tbAva);
+        scroll.setBounds(10, 180, 700, 280);
+        add(scroll);
         
         
 	ckMon = new JCheckBox("Segunda");
@@ -139,8 +156,36 @@ public class SearchUI extends JPanel {
         add(bCancel);
 	}
 
+	TeacherCtrl tctrl = new TeacherCtrl();
+	PhoneCtrl pctrl = new PhoneCtrl();
+	DaysCtrl dctrl = new DaysCtrl();
+	Masker m3 = new Masker();	
+
+	private void loadTable(int id){
+		Masker m4 = new Masker();
+		model.setRowCount(0);
+		String filter = String.valueOf(id);
+		for(Teacher teacher : new TeacherCtrl().list(filter)){
+			
+			model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone)});
+		}
+	}
+
     private void setEvents() {
 		
-		
+		bSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(ftRnumber.equals("") && tfName.equals("") && tfLang.equals("")){
+					JOptionPane.showMessageDialog(null, "Preencha um dos campos a esquerda!");
+				}else if(ftRnumber.equals("") == false){
+					int id = Integer.parseInt(ftRnumber.getText());
+					
+					
+				}
+				
+			}
+		});		
 	}	
 }
