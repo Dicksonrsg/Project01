@@ -432,7 +432,7 @@ public class RegisterUI extends JPanel{
                         if(ckSat.isSelected()){
                             day = "Sabado";
                             shift = 7;
-                            dctrl.register(day,   shift, id);
+                            dctrl.register(day, shift, id);
                         }
 		}
 				

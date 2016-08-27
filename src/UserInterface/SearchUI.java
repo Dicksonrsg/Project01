@@ -1,10 +1,17 @@
 package UserInterface;
 
+import CTRL.DaysCtrl;
+import CTRL.Masker;
+import CTRL.PhoneCtrl;
+import CTRL.TeacherCtrl;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,6 +20,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import model.Days;
+import model.Phone;
+import model.Teacher;
 
 public class SearchUI extends JPanel {
 	
@@ -22,7 +32,7 @@ public class SearchUI extends JPanel {
 	private JCheckBox ckMon, ckTue, ckWed, ckThu, ckFri, ckSat;
 	private JCheckBox ckS1, ckS2, ckS3, ckS4, ckS5, ckS6;
 	private JButton bSearch, bCancel;
-	private MaskFormatter mask;
+	private MaskFormatter mask,maskh;
 	private DefaultTableModel model;
         private JTable tbAva;
         private JScrollPane scroll;
@@ -59,7 +69,7 @@ public class SearchUI extends JPanel {
             mask = new MaskFormatter("####");
             ftRnumber = new JFormattedTextField(mask);
             }catch(ParseException error){
-                    System.out.println("Error: " + error.toString());
+                System.out.println("Error: " + error.toString());
             }finally{
             ftRnumber.setBounds(70, 15, 50, 20);
             add(ftRnumber);
@@ -83,13 +93,15 @@ public class SearchUI extends JPanel {
         
         tbAva.getColumnModel().getColumn(0).setPreferredWidth(20);
         tbAva.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tbAva.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tbAva.getColumnModel().getColumn(2).setPreferredWidth(60);
         tbAva.getColumnModel().getColumn(3).setPreferredWidth(50);
         tbAva.getColumnModel().getColumn(4).setPreferredWidth(50);
-        tbAva.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbAva.getColumnModel().getColumn(5).setPreferredWidth(50);
         
         tbAva.getColumnModel().getColumn(0).setCellRenderer(centeralignment);
-        tbAva.getColumnModel().getColumn(2).setCellRenderer(rightalignment);
+        tbAva.getColumnModel().getColumn(3).setCellRenderer(centeralignment);
+        tbAva.getColumnModel().getColumn(4).setCellRenderer(centeralignment);
+        tbAva.getColumnModel().getColumn(5).setCellRenderer(centeralignment);
         
         tbAva.getTableHeader().setReorderingAllowed(false);
         
@@ -161,31 +173,53 @@ public class SearchUI extends JPanel {
 	DaysCtrl dctrl = new DaysCtrl();
 	Masker m3 = new Masker();	
 
-	private void loadTable(int id){
+	private void loadTable(String filter){
 		Masker m4 = new Masker();
 		model.setRowCount(0);
-		String filter = String.valueOf(id);
-		for(Teacher teacher : new TeacherCtrl().list(filter)){
-			
-			model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone)});
+		for(Teacher teacher : new TeacherCtrl().list(filter)){                    
+                       model.addRow(new Object[] {teacher.getRg(), teacher.getName(),"teste2" , teacher.getLangauge(), "teste3", "test1"});
 		}
 	}
 
     private void setEvents() {
 		
-		bSearch.addActionListener(new ActionListener() {
+    bSearch.addActionListener(new ActionListener() {
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(ftRnumber.equals("") && tfName.equals("") && tfLang.equals("")){
-					JOptionPane.showMessageDialog(null, "Preencha um dos campos a esquerda!");
-				}else if(ftRnumber.equals("") == false){
-					int id = Integer.parseInt(ftRnumber.getText());
-					
-					
-				}
-				
-			}
-		});		
-	}	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+            
+            if(ftRnumber.getText().trim().equals("") && tfName.getText().equals("") && tfLang.getText().equals("")){
+		JOptionPane.showMessageDialog(null, "Preencha um dos campos a esquerda!");
+                }else if(ftRnumber.getText().trim().equals("") == false){
+                    int rg = Integer.parseInt(ftRnumber.getText());
+                    Teacher teach = new Teacher();
+                    teach = tctrl.FindByRG(rg);
+                    
+                    int id = teach.getId();
+                    for(Days day : dctrl.list(id)){
+                    for(Phone phone : pctrl.list(id)){
+                        model.setRowCount(0);
+                        model.addRow(new Object[] {teach.getRg(), teach.getName(), m3.format(phone.getPhone()), teach.getLangauge(), day.getName(), day.getShift()});                        
+                    }}                    
+		}else if(tfName.getText().equals("") == false){
+                    String filn = tfName.getText();
+                    loadTable(filn);
+                }else if(tfLang.getText().equals("") == false){
+                    String fill = tfLang.getText();
+                    loadTable(fill);
+                } 				
+	}
+    });	
+    
+    bCancel.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ftRnumber.setText("");
+            tfLang.setText("");
+            tfName.setText("");
+           
+        }
+    });
+    }	
 }

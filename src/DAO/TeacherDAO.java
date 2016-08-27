@@ -119,7 +119,7 @@ public class TeacherDAO {
                 rs = ps.executeQuery();
                 while(rs.next()){
                     Teacher teacher = new Teacher();
-                    teacher.setRg(rs.getInt(1));
+                    teacher.setRg(rs.getInt(4));
                     teacher.setName(rs.getString(2));
                     teacher.setLangauge(rs.getString(3));
                     teachers.add(teacher);

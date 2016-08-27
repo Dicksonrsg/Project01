@@ -14,5 +14,15 @@ public class Masker {
     
     public static String clear(String phone) {
         return phone = phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-    }     
+    }
+    
+    public static String wizard(int shift){
+        String eureka = "";
+        switch(shift){
+            case 1:
+                eureka = "07:20 - 09:20";
+                break;
+        }
+        return eureka;
+    }
 }
