@@ -22,6 +22,24 @@ public class Masker {
             case 1:
                 eureka = "07:20 - 09:20";
                 break;
+            case 2:
+                eureka = "09:30 - 11:30";
+                break;
+            case 3:
+                eureka = "13:30 - 15:30";
+                break;
+            case 4:
+                eureka = "15:40 - 17:40";
+                break;
+            case 5:
+                eureka = "18:00 - 20:00";
+                break;
+            case 2:
+                eureka = "20:00 - 22:00";
+                break;
+            default:
+                eureka = "Noob";
+                break;
         }
         return eureka;
     }
