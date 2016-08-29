@@ -137,26 +137,27 @@ public class DaysDAO{
         return null;
     }
         
-    public Days FindByDay(String name){
+    public List<Days> FindByDS(String name, int shift){
         if(db.open()){
-            sql = "SELECT *  FROM tb_days WHERE day_name = ?";
-            try{
+            List<Days> ds2 = new ArrayList<>();
+            sql = "SELECT *  FROM tb_days WHERE day_name = ? AND day_shift";
+            try{                
                 ps = db.connection.prepareStatement(sql);
-                ps.setString(1, name.trim());
+                ps.setString(1, name);
+                ps.setInt(2, shift);
                 rs = ps.executeQuery();
-                if(rs.next()){
+                while(rs.next()){
                     Days day = new Days();
                     TeacherDAO tdao = new TeacherDAO();
                     day.setTeacher(tdao.select(rs.getInt("day_tea_id")));
                     day.setName(rs.getString("day_name"));
-                    rs.close();
-                    ps.close();
-                    db.close();
-                    return day;  
+                    day.setShift(rs.getInt("day_shift"));
+                    ds2.add(day);                   
                 }
                 rs.close();
                 ps.close();
                 db.close();
+                return ds2;
             }catch (SQLException error){
                 System.out.println("ERROR: " + error.toString());
                 return null;

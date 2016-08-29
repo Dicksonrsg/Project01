@@ -7,12 +7,14 @@ import CTRL.TeacherCtrl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -29,10 +31,11 @@ public class SearchUI extends JPanel {
 	private JLabel lName, lLang, lRNum;
 	private JFormattedTextField ftRnumber;
 	private JTextField tfName, tfLang;
-	private JCheckBox ckMon, ckTue, ckWed, ckThu, ckFri, ckSat;
 	private JCheckBox ckS1, ckS2, ckS3, ckS4, ckS5, ckS6;
+	private JRadioButton rbMon, rbTue, rbWed, rbThu, rbFri, rbSat;
+        private ButtonGroup group;
 	private JButton bSearch, bCancel;
-	private MaskFormatter mask,maskh;
+	private MaskFormatter mask;
 	private DefaultTableModel model;
         private JTable tbAva;
         private JScrollPane scroll;
@@ -81,7 +84,6 @@ public class SearchUI extends JPanel {
                 
                 },0
         );
-        /*loadTable();*/
         
         tbAva = new JTable(model);
         tbAva.setRowHeight(30);
@@ -110,34 +112,35 @@ public class SearchUI extends JPanel {
         scroll.setBounds(10, 180, 700, 280);
         add(scroll);
         
+        group = new ButtonGroup();
         
-	ckMon = new JCheckBox("Segunda");
-        ckMon.setBounds(10, 120, 80, 20);
-        add(ckMon);
+	rbMon = new JRadioButton("Segunda");
+        rbMon.setBounds(10, 120, 80, 20);
+        group.add(rbMon);
         
-        ckTue = new JCheckBox("Terça");
-        ckTue.setBounds(120, 120, 80, 20);
-        add(ckTue);
+        rbTue = new JRadioButton("Terça");
+        rbTue.setBounds(120, 120, 80, 20);
+        group.add(rbTue);
         
-	ckWed = new JCheckBox("Quarta");
-        ckWed.setBounds(230, 120, 80, 20);
-        add(ckWed);
+	rbWed = new JRadioButton("Quarta");
+        rbWed.setBounds(230, 120, 80, 20);
+        group.add(rbWed);
         
-	ckThu = new JCheckBox("Quinta");
-        ckThu.setBounds(340, 120, 80, 20);
-        add(ckThu);
+	rbThu = new JRadioButton("Quinta");
+        rbThu.setBounds(340, 120, 80, 20);
+        group.add(rbThu);
         
-	ckFri = new JCheckBox("Sexta");
-        ckFri.setBounds(450, 120, 80, 20);
-        add(ckFri);
+	rbFri = new JRadioButton("Sexta");
+        rbFri.setBounds(450, 120, 80, 20);
+        group.add(rbFri);
         
-	ckSat = new JCheckBox("Sabado");
-        ckSat.setBounds(560, 120, 80, 20);
-        add(ckSat);
+	rbSat = new JRadioButton("Sabado");
+        rbSat.setBounds(560, 120, 80, 20);
+        group.add(rbSat);
         
         ckS1 = new JCheckBox("07:20 - 09:20");
         ckS1.setBounds(10, 145, 100, 20);
-        add(ckS1);
+        group.add(ckS1);
         
         ckS2 = new JCheckBox("09:30 - 11:30");
         ckS2.setBounds(120, 145, 100, 20);
@@ -176,9 +179,18 @@ public class SearchUI extends JPanel {
 	private void loadTable(String filter){
 		Masker m4 = new Masker();
 		model.setRowCount(0);
-		for(Teacher teacher : new TeacherCtrl().list(filter)){                    
-                       model.addRow(new Object[] {teacher.getRg(), teacher.getName(),"teste2" , teacher.getLangauge(), "teste3", "test1"});
-		}
+		for(Teacher teacher : new TeacherCtrl().list(filter)){
+                    int id = teacher.getId();
+                    for(Phone phone : pctrl.list(id)){ 
+                        for(Days day : dctrl.list(id)){
+                            if(day.getName().equals("Sabado")){
+                                model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), "08:00 - 12:00"});
+                            }else{
+                                model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), m4.wizard(day.getShift())});
+                            }
+                        }
+                    }
+                }
 	}
 
     private void setEvents() {
@@ -199,7 +211,7 @@ public class SearchUI extends JPanel {
                     for(Days day : dctrl.list(id)){
                     for(Phone phone : pctrl.list(id)){
                         model.setRowCount(0);
-                        model.addRow(new Object[] {teach.getRg(), teach.getName(), m3.format(phone.getPhone()), teach.getLangauge(), day.getName(), day.getShift()});                        
+                        model.addRow(new Object[] {teach.getRg(), teach.getName(), m3.format(phone.getPhone()), teach.getLangauge(), day.getName(), m3.wizard(day.getShift())});                        
                     }}                    
 		}else if(tfName.getText().equals("") == false){
                     String filn = tfName.getText();

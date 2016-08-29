@@ -34,7 +34,7 @@ public class Masker {
             case 5:
                 eureka = "18:00 - 20:00";
                 break;
-            case 2:
+            case 6:
                 eureka = "20:00 - 22:00";
                 break;
             default:

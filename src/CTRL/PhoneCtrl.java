@@ -42,4 +42,5 @@ public class PhoneCtrl {
         newp.setTeacher(tdao.select(id));
         return pdao.delete(newp);
     }
+    
 }

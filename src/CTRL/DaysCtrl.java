@@ -42,5 +42,9 @@ public class DaysCtrl {
     public boolean delete(int id){
     	day.setTeacher(tdao.select(id));
     	return ddao.delete(day);
+    }
+    
+    public List<Days> findByDS(String name, int shift){
+        return ddao.FindByDS(name, shift);
     }    
 }
