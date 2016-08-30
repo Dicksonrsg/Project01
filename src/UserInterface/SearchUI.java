@@ -6,6 +6,10 @@ import CTRL.PhoneCtrl;
 import CTRL.TeacherCtrl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.ParseException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -32,7 +36,7 @@ public class SearchUI extends JPanel {
 	private JFormattedTextField ftRnumber;
 	private JTextField tfName, tfLang;
 	private JCheckBox ckS1, ckS2, ckS3, ckS4, ckS5, ckS6;
-	private JRadioButton rbMon, rbTue, rbWed, rbThu, rbFri, rbSat;
+	private JRadioButton rbMon, rbTue, rbWed, rbThu, rbFri, rbSat, rbNope;
         private ButtonGroup group;
 	private JButton bSearch, bCancel;
 	private MaskFormatter mask;
@@ -144,28 +148,39 @@ public class SearchUI extends JPanel {
         group.add(rbSat);
         add(rbSat);
         
+        rbNope = new JRadioButton("Nenhuma opção");
+        rbNope.setBounds(670, 120, 80, 20);
+        group.add(rbNope);
+        add(rbNope);
+        
         ckS1 = new JCheckBox("07:20 - 09:20");
         ckS1.setBounds(10, 145, 100, 20);
-        group.add(ckS1);
+        ckS1.setEnabled(false);
+        add(ckS1);
         
         ckS2 = new JCheckBox("09:30 - 11:30");
         ckS2.setBounds(120, 145, 100, 20);
+        ckS2.setEnabled(false);
         add(ckS2);
         
         ckS3 = new JCheckBox("13:30 - 15:30");
         ckS3.setBounds(230, 145, 100, 20);
+        ckS3.setEnabled(false);
         add(ckS3);
         
         ckS4 = new JCheckBox("15:40 - 17:40");
         ckS4.setBounds(340, 145, 100, 20);
+        ckS4.setEnabled(false);
         add(ckS4);
         
         ckS5 = new JCheckBox("18:00 - 20:00");
         ckS5.setBounds(450, 145, 100, 20);
+        ckS5.setEnabled(false);
         add(ckS5);
         
         ckS6 = new JCheckBox("20:00 - 22:00");
         ckS6.setBounds(560, 145, 100, 20);
+        ckS6.setEnabled(false);
         add(ckS6);
         
         bSearch = new JButton("Pesquisar");
@@ -183,72 +198,82 @@ public class SearchUI extends JPanel {
 	Masker m3 = new Masker();	
 
 	private void loadTable(String filter){
-		Masker m4 = new Masker();
-		model.setRowCount(0);
-		for(Teacher teacher : new TeacherCtrl().list(filter)){
-                    int id = teacher.getId();
-                    for(Phone phone : pctrl.list(id)){ 
-                        for(Days day : dctrl.list(id)){
-                            if(day.getName().equals("Sabado")){
-                                model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), "08:00 - 12:00"});
-                            }else{
-                                model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), m4.wizard(day.getShift())});
-                            }
+            Masker m4 = new Masker();
+            model.setRowCount(0);
+            for(Teacher teacher : new TeacherCtrl().list(filter)){
+                int id = teacher.getId();
+                for(Phone phone : pctrl.list(id)){ 
+                    for(Days day : dctrl.list(id)){
+                        if(day.getName().equals("Sabado")){
+                           model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), "08:00 - 12:00"});
+                        }else{
+                            model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m4.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), m4.wizard(day.getShift())});
                         }
                     }
                 }
+            }
 	}
 	
-		private void enableCK(){
-		ckS1.setEnabled(true);
-		ckS2.setEnabled(true);
-		ckS3.setEnabled(true);
-		ckS4.setEnabled(true);
-		ckS5.setEnabled(true);
-		ckS6.setEnabled(true);
+	private void enableCK(){
+            ckS1.setEnabled(true);
+            ckS2.setEnabled(true);
+            ckS3.setEnabled(true);
+            ckS4.setEnabled(true);
+            ckS5.setEnabled(true);
+            ckS6.setEnabled(true);
 	}
 	
-		private void nonoCK(){
-		ckS1.setEnabled(false);
-		ckS2.setEnabled(false);
-		ckS3.setEnabled(false);
-		ckS4.setEnabled(false);
-		ckS5.setEnabled(false);
-		ckS6.setEnabled(false);
+	private void nonoCK(){
+            ckS1.setEnabled(false);
+            ckS2.setEnabled(false);
+            ckS3.setEnabled(false);
+            ckS4.setEnabled(false);
+            ckS5.setEnabled(false);
+            ckS6.setEnabled(false);
+            ckS1.setSelected(false);
+            ckS2.setSelected(false);
+            ckS3.setSelected(false);
+            ckS4.setSelected(false);
+            ckS5.setSelected(false);
+            ckS6.setSelected(false);
 	}
+        
+        private void cleanTable(){
+            model.setRowCount(0);
+        }
 	
-		private void fillTableDS(String dayN, int shift){
-		for(Days day : dctrl.findByDS(dayN, shift)){
-			String filter = day.getTeacher().getName();
-			for(Teacher teacher : new TeacherCtrl().list(filter)){
-				int id = teacher.getId();
-				for(Phone phone : pctrl.list(id)){
-					model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m3.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), m3.wizard(day.getShift())});
-				}
-			}
-		}		
-	}
-	
-		private void defineDay(int shift){
-		String name = "";
-		if(rbMon.isSelected()){
-			name = "Segunda";
-			fillTableDS(name, shift);
-		}else if(rbTue.isSelected()){
-			name = "Terca";
-			fillTableDS(name, shift);
-		}else if(rbWed.isSelected()){
-			name = "Quarta";
-			fillTableDS(name, shift);
-		}else if(rbThu.isSelected()){
-			name = "Quinta";
-			fillTableDS(name, shift);
-		}else if(rbFri.isSelected()){
-			name = "Sexta";
-			fillTableDS(name, shift);
-		}else{
-			JOptionPane.showMessageDialog(null, "Something went wrong");
+	private void fillTableDS(String dayN, int shift){
+            for(Days day : dctrl.findByDS(dayN, shift)){
+		String filter = day.getTeacher().getName();
+		for(Teacher teacher : new TeacherCtrl().list(filter)){
+                    int id = teacher.getId();
+                    for(Phone phone : pctrl.list(id)){
+			model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m3.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), m3.wizard(day.getShift())});
+                    }
 		}
+            }		
+	}
+	
+	private void defineDay(int shift){
+            String name = "";
+            if(rbMon.isSelected()){
+		name = "Segunda";
+		fillTableDS(name, shift);
+            }else if(rbTue.isSelected()){
+                    name = "Terca";
+                    fillTableDS(name, shift);
+            }else if(rbWed.isSelected()){
+                    name = "Quarta";
+                    fillTableDS(name, shift);
+            }else if(rbThu.isSelected()){
+                    name = "Quinta";
+                    fillTableDS(name, shift);
+            }else if(rbFri.isSelected()){
+                    name = "Sexta";
+                    fillTableDS(name, shift);
+            }else{
+		JOptionPane.showMessageDialog(null, "Something went wrong");
+            }
 	}
 
     private void setEvents() {
@@ -288,131 +313,172 @@ public class SearchUI extends JPanel {
             ftRnumber.setText("");
             tfLang.setText("");
             tfName.setText("");
-           
+            cleanTable();
+            nonoCK();
         }
     });
     
     rbMon.addItemListener(new ItemListener() {
 		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if(rbMon.isSelected()){
-				enableCK();
-			}else{
-				nonoCK();
-			}
-			
-		}
-	});
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+            if(rbMon.isSelected()){
+		enableCK();
+            }else{
+		nonoCK();
+            }			
+            }
+    });
     
     rbTue.addItemListener(new ItemListener() {
 		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if(rbTue.isSelected()){
-				enableCK();
-			}else{
-				nonoCK();
-			}
-			
-		}
-	});
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+            if(rbTue.isSelected()){
+		enableCK();
+            }else{
+                nonoCK();
+            }
+            }
+    });
     
     rbWed.addItemListener(new ItemListener() {
 		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if(rbWed.isSelected()){
-				enableCK();
-			}else{
-				nonoCK();
-			}
-			
-		}
-	});
+	@Override
+        public void itemStateChanged(ItemEvent e) {
+            if(rbWed.isSelected()){
+		enableCK();
+		}else{
+                    nonoCK();
+            }			
+            }
+    });
     
     rbThu.addItemListener(new ItemListener() {
 		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if(rbThu.isSelected()){
-				enableCK();
-			}else{
-				nonoCK();
-			}
-			
-		}
-	});
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+            if(rbThu.isSelected()){
+		enableCK();
+            }else{
+		nonoCK();
+		}			
+            }
+    });
     
     rbFri.addItemListener(new ItemListener() {
 		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if(rbFri.isSelected()){
-				enableCK();
-			}else{
-				nonoCK();
-			}
-			
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+            if(rbFri.isSelected()){
+		enableCK();
+		}else{
+                    nonoCK();
 		}
+            }
 	});
     
-    rbSat.addItemListener(new ItemListener() {
-		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			String day = "Sabado";
-			int shift = 7;
-			fillTableDS(day, shift);
-		}
-	});
+    rbSat.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String day = "Sabado";
+            int shift = 7;
+            fillTableDS(day, shift);            
+        }
+    });
     
-    ckS1.addItemListener(new ItemListener() {
-		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			int shift = 1;
-		}
-	});
+    rbNope.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cleanTable();
+            nonoCK();
+        }
+    });
     
-    ckS2.addItemListener(new ItemListener() {
-		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			int shift = 2;
-		}
-	});
+    ckS1.addFocusListener(new FocusListener() {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            int shift = 1;
+            defineDay(shift);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            
+        }
+    });
     
-    ckS3.addItemListener(new ItemListener() {
-		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			int shift = 3;
-		}
-	});
+    ckS2.addFocusListener(new FocusListener() {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            int shift = 2;
+            defineDay(shift);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            
+        }
+    });
     
-    ckS4.addItemListener(new ItemListener() {
-		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			int shift = 4;
-		}
-	});
+    ckS3.addFocusListener(new FocusListener() {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            int shift = 3;
+            defineDay(shift);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            
+        }
+    });
     
-    ckS5.addItemListener(new ItemListener() {
-		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			int shift = 5;
-		}
-	});
+    ckS4.addFocusListener(new FocusListener() {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            int shift = 4;
+            defineDay(shift);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            
+        }
+    });
     
-    ckS6.addItemListener(new ItemListener() {
-		
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			int shift = 6;
-		}
-	});
+    ckS5.addFocusListener(new FocusListener() {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            int shift = 5;
+            defineDay(shift);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            
+        }
+    });
+    
+    ckS6.addFocusListener(new FocusListener() {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            int shift = 6;
+            defineDay(shift);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            
+        }
+    });
     }	
 }

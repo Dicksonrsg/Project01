@@ -140,7 +140,7 @@ public class DaysDAO{
     public List<Days> FindByDS(String name, int shift){
         if(db.open()){
             List<Days> ds2 = new ArrayList<>();
-            sql = "SELECT *  FROM tb_days WHERE day_name = ? AND day_shift";
+            sql = "SELECT *  FROM tb_days WHERE day_name = ? AND day_shift = ?";
             try{                
                 ps = db.connection.prepareStatement(sql);
                 ps.setString(1, name);
