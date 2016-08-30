@@ -117,26 +117,32 @@ public class SearchUI extends JPanel {
 	rbMon = new JRadioButton("Segunda");
         rbMon.setBounds(10, 120, 80, 20);
         group.add(rbMon);
+        add(rbMon);
         
         rbTue = new JRadioButton("Terça");
         rbTue.setBounds(120, 120, 80, 20);
         group.add(rbTue);
+        add(rbTue);
         
 	rbWed = new JRadioButton("Quarta");
         rbWed.setBounds(230, 120, 80, 20);
         group.add(rbWed);
+        add(rbWed);
         
 	rbThu = new JRadioButton("Quinta");
         rbThu.setBounds(340, 120, 80, 20);
         group.add(rbThu);
+        add(rbThu);
         
 	rbFri = new JRadioButton("Sexta");
         rbFri.setBounds(450, 120, 80, 20);
         group.add(rbFri);
+        add(rbFri);
         
 	rbSat = new JRadioButton("Sabado");
         rbSat.setBounds(560, 120, 80, 20);
         group.add(rbSat);
+        add(rbSat);
         
         ckS1 = new JCheckBox("07:20 - 09:20");
         ckS1.setBounds(10, 145, 100, 20);
@@ -192,6 +198,58 @@ public class SearchUI extends JPanel {
                     }
                 }
 	}
+	
+		private void enableCK(){
+		ckS1.setEnabled(true);
+		ckS2.setEnabled(true);
+		ckS3.setEnabled(true);
+		ckS4.setEnabled(true);
+		ckS5.setEnabled(true);
+		ckS6.setEnabled(true);
+	}
+	
+		private void nonoCK(){
+		ckS1.setEnabled(false);
+		ckS2.setEnabled(false);
+		ckS3.setEnabled(false);
+		ckS4.setEnabled(false);
+		ckS5.setEnabled(false);
+		ckS6.setEnabled(false);
+	}
+	
+		private void fillTableDS(String dayN, int shift){
+		for(Days day : dctrl.findByDS(dayN, shift)){
+			String filter = day.getTeacher().getName();
+			for(Teacher teacher : new TeacherCtrl().list(filter)){
+				int id = teacher.getId();
+				for(Phone phone : pctrl.list(id)){
+					model.addRow(new Object[] {teacher.getRg(), teacher.getName(), m3.format(phone.getPhone()) , teacher.getLangauge(), day.getName(), m3.wizard(day.getShift())});
+				}
+			}
+		}		
+	}
+	
+		private void defineDay(int shift){
+		String name = "";
+		if(rbMon.isSelected()){
+			name = "Segunda";
+			fillTableDS(name, shift);
+		}else if(rbTue.isSelected()){
+			name = "Terca";
+			fillTableDS(name, shift);
+		}else if(rbWed.isSelected()){
+			name = "Quarta";
+			fillTableDS(name, shift);
+		}else if(rbThu.isSelected()){
+			name = "Quinta";
+			fillTableDS(name, shift);
+		}else if(rbFri.isSelected()){
+			name = "Sexta";
+			fillTableDS(name, shift);
+		}else{
+			JOptionPane.showMessageDialog(null, "Something went wrong");
+		}
+	}
 
     private void setEvents() {
 		
@@ -233,5 +291,128 @@ public class SearchUI extends JPanel {
            
         }
     });
+    
+    rbMon.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			if(rbMon.isSelected()){
+				enableCK();
+			}else{
+				nonoCK();
+			}
+			
+		}
+	});
+    
+    rbTue.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			if(rbTue.isSelected()){
+				enableCK();
+			}else{
+				nonoCK();
+			}
+			
+		}
+	});
+    
+    rbWed.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			if(rbWed.isSelected()){
+				enableCK();
+			}else{
+				nonoCK();
+			}
+			
+		}
+	});
+    
+    rbThu.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			if(rbThu.isSelected()){
+				enableCK();
+			}else{
+				nonoCK();
+			}
+			
+		}
+	});
+    
+    rbFri.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			if(rbFri.isSelected()){
+				enableCK();
+			}else{
+				nonoCK();
+			}
+			
+		}
+	});
+    
+    rbSat.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			String day = "Sabado";
+			int shift = 7;
+			fillTableDS(day, shift);
+		}
+	});
+    
+    ckS1.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			int shift = 1;
+		}
+	});
+    
+    ckS2.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			int shift = 2;
+		}
+	});
+    
+    ckS3.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			int shift = 3;
+		}
+	});
+    
+    ckS4.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			int shift = 4;
+		}
+	});
+    
+    ckS5.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			int shift = 5;
+		}
+	});
+    
+    ckS6.addItemListener(new ItemListener() {
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			int shift = 6;
+		}
+	});
     }	
 }
