@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -29,7 +30,7 @@ public class EditUI extends JPanel{
        
     private JTextField tfName, tfLanguage;
     private JFormattedTextField tfPhone, tfRnumber;
-    private JButton jbInserir, jbClean;
+    private JButton jbUpdate, jbClean;
     private JLabel jlName, jlRnumber,jlPhone, jlLanguage; 
     private JCheckBox jcMS1, jcMS2, jcMS3, jcMS4, jcMS5, jcMS6;
     private JCheckBox jcTS1, jcTS2, jcTS3, jcTS4, jcTS5, jcTS6;
@@ -78,13 +79,13 @@ public class EditUI extends JPanel{
                 
 		add(tfName); add(tfLanguage);                
 		
-		jbInserir = new JButton("Salvar");
+		jbUpdate = new JButton("Salvar");
 		jbClean = new JButton("Cancelar");
                 
-                jbInserir.setBounds(120, 340, 100, 30);
+                jbUpdate.setBounds(120, 340, 100, 30);
                 jbClean.setBounds(230, 340, 100, 30);
                 
-                add(jbInserir); add(jbClean);
+                add(jbUpdate); add(jbClean);
                 
 		jlRnumber = new JLabel("Matricula");
 		jlName = new JLabel("Nome");
@@ -487,35 +488,37 @@ public class EditUI extends JPanel{
                 @Override
                 public void focusLost(FocusEvent e) {
                     Teacher tea = new Teacher();
+                    if(tfRnumber.getText().trim().equals("")){
+                        JOptionPane.showMessageDialog(null, "Digite a matricula do professor!");
+                    }else if(tfRnumber.getText().trim().length() < 4){
+                        JOptionPane.showMessageDialog(null, "Matricula deve conter 4 números sem espaços.");
+                    }else{    
+                        try{
+                        int rg = Integer.parseInt(tfRnumber.getText());
+                        tea = tctrl.FindByRG(rg);
+                        tfName.setText(tea.getName());
+                        tfLanguage.setText(tea.getLangauge());
+                        }catch(NumberFormatException error){
+                            System.out.println(error.toString());
+                        }catch(NullPointerException error1){
+                            System.out.println(error1.toString());
+                        }
 
-                    try{
-                    int rg = Integer.parseInt(tfRnumber.getText());
-                    tea = tctrl.FindByRG(rg);
-                    tfName.setText(tea.getName());
-                    tfLanguage.setText(tea.getLangauge());
-                    }catch(NumberFormatException error){
-                        System.out.println(error.toString());
-                    }catch(NullPointerException error1){
-                        System.out.println(error1.toString());
-                    }
-                    
-                    int id = tea.getId();
-                    for(Phone phone : pctrl.list(id)){
-                        tfPhone.setText(phone.getPhone());
-                    }
-                    
-                    for(Days day : dctrl.list(id)){
-                        System.out.println(day);
-                        System.out.println(day.getName());
-                        String da = day.getName();
-                        int sh = day.getShift();
-                        boxChecker(da, sh);
-                    }
-                }                    
-                
+                        int id = tea.getId();
+                        for(Phone phone : pctrl.list(id)){
+                            tfPhone.setText(phone.getPhone());
+                        }
+
+                        for(Days day : dctrl.list(id)){
+                            String da = day.getName();
+                            int sh = day.getShift();
+                            boxChecker(da, sh);
+                        }                        
+                    }                    
+                }
             });
         
-        jbInserir.addActionListener(new ActionListener() {
+        jbUpdate.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -530,6 +533,17 @@ public class EditUI extends JPanel{
                     
                     String npho = m2.clear(tfPhone.getText());
                     pctrl.update(id, npho);
+                    
+                    int q = JOptionPane.showConfirmDialog(null, "Nova edição?", "Cadastro editado com sucesso!", JOptionPane.YES_NO_OPTION);
+                    if(q == 0){
+                        tfName.setText("");
+                        tfRnumber.setText("");
+                        tfLanguage.setText("");
+                        tfPhone.setText("");
+                        cleanCheckBox();                                                    
+                    }else{
+                        
+                    }
                 }
             });
     }

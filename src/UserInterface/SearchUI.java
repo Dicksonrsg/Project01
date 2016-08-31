@@ -286,16 +286,21 @@ public class SearchUI extends JPanel {
             if(ftRnumber.getText().trim().equals("") && tfName.getText().equals("") && tfLang.getText().equals("")){
 		JOptionPane.showMessageDialog(null, "Preencha um dos campos a esquerda!");
                 }else if(ftRnumber.getText().trim().equals("") == false){
-                    int rg = Integer.parseInt(ftRnumber.getText());
-                    Teacher teach = new Teacher();
-                    teach = tctrl.FindByRG(rg);
-                    
-                    int id = teach.getId();
-                    for(Days day : dctrl.list(id)){
-                    for(Phone phone : pctrl.list(id)){
-                        model.setRowCount(0);
-                        model.addRow(new Object[] {teach.getRg(), teach.getName(), m3.format(phone.getPhone()), teach.getLangauge(), day.getName(), m3.wizard(day.getShift())});                        
-                    }}                    
+                    if(ftRnumber.getText().trim().length() < 4){
+                        JOptionPane.showMessageDialog(null, "Matricula deve conter 4 números sem espaços.");
+                    }else{
+                        int rg = Integer.parseInt(ftRnumber.getText());
+                        Teacher teach = new Teacher();
+                        teach = tctrl.FindByRG(rg);
+
+                        int id = teach.getId();
+                        for(Days day : dctrl.list(id)){
+                            for(Phone phone : pctrl.list(id)){
+                                model.setRowCount(0);
+                                model.addRow(new Object[] {teach.getRg(), teach.getName(), m3.format(phone.getPhone()), teach.getLangauge(), day.getName(), m3.wizard(day.getShift())});                        
+                            }
+                        }
+                    }
 		}else if(tfName.getText().equals("") == false){
                     String filn = tfName.getText();
                     loadTable(filn);

@@ -435,7 +435,22 @@ public class RegisterUI extends JPanel{
                             dctrl.register(day, shift, id);
                         }
 		}
-				
+                    
+                    int q = JOptionPane.showConfirmDialog(null, "Cadastrar novo?", "Cadastro feito com sucesso!", JOptionPane.YES_NO_OPTION);
+                    if(q == 0){
+                        tfName.setText("");
+                        tfRnumber.setText("");
+                        tfLanguage.setText("");
+                        tfPhone.setText("");
+                        cleanCheckBox();                        
+                    }else{
+                        tfName.setText("");
+                        tfRnumber.setText("");
+                        tfLanguage.setText("");
+                        tfPhone.setText("");
+                        cleanCheckBox();                     
+                    }
+               
             }
 	});
         tfRnumber.addKeyListener(new KeyListener() {

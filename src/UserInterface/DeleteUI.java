@@ -106,7 +106,24 @@ public class DeleteUI extends JPanel{
                     pctrl.delete(id);
                     dctrl.delete(id);
                     tctrl.delete(id);
+                    
+                    int q = JOptionPane.showConfirmDialog(null, "Deletar outro cadastro?", "Cadastro deletado com sucesso!", JOptionPane.YES_NO_OPTION);
+                    if(q == 0){
+                        ftRnumber.setText("");
+                        tfName.setText("");
+                    }else{
+                        
+                    }                    
                 }
+            }
+        });
+        
+        jbCancel.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ftRnumber.setText("");
+                tfName.setText("");
             }
         });
     }

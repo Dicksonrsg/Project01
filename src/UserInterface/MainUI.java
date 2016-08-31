@@ -56,7 +56,10 @@ public class MainUI extends JFrame{
 
           @Override
           public void mousePressed(MouseEvent e) {
-              System.exit(0);
+              int q = JOptionPane.showConfirmDialog(null, "Deseja sair?", "Fechar programa!", JOptionPane.YES_NO_OPTION);
+              if(q == 0){
+                System.exit(0);
+              }else{}
           }
 
           @Override
